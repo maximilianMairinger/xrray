@@ -1,0 +1,15 @@
+{
+  "name": "xrray",
+  "version": "2.1.2",
+  "description": "Some utility to deal with Arrays",
+  "main": "index.min.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "Array",
+    "utility"
+  ],
+  "author": "Maximilian Mairinger",
+  "license": "ISC"
+}
