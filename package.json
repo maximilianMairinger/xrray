@@ -1,6 +1,6 @@
 {
   "name": "xrray",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Some utility to deal with Arrays",
   "main": "index.min.js",
   "scripts": {
@@ -10,6 +10,10 @@
     "Array",
     "utility"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zzrv/xrray.git"
+  },
   "author": "Maximilian Mairinger",
   "license": "ISC"
 }
