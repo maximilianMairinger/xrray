@@ -53,15 +53,8 @@ module.exports = (function() {
     if(Constr.xrray) return Constr;
     let p = Constr.prototype;
 
-
-
-    Object.defineProperty(Constr, "xrray", {get() {
-      return (def(p.clear) && def(p.Clear) && def(p.add) && def(p.Add) && def(p.set) && def(p.Set) && def(p.Reverse) && def(p.index) && def(p.flat) && def(p.Flat) && def(p.clean) && def(p.Clean) && def(p.removeI) && def(p.RemoveI) && def(p.removeV) && def(p.RemoveV) && def(p.remove) && def(p.Remove) && def(p.Get) && def(p.get) && def(p.dda) && def(p.Dda) && def(p.rem) && def(p.Rem) && def(p.mer) && def(p.Mer) && def(p.swapI) && def(p.SwapI) && def(p.swapV) && def(p.SwapV) && def(p.swap) && def(p.swap));
-    }});
-
-    Object.defineProperty(p, "xrray", {get() {
-      return (def(this.clear) && def(this.Clear) && def(this.add) && def(this.Add) && def(this.set) && def(this.Set) && def(this.Reverse) && def(this.index) && def(this.flat) && def(this.Flat) && def(this.clean) && def(this.Clean) && def(this.removeI) && def(this.RemoveI) && def(this.removeV) && def(this.RemoveV) && def(this.remove) && def(this.Remove) && def(this.Get) && def(this.get) && def(this.dda) && def(this.Dda) && def(this.rem) && def(this.Rem) && def(this.mer) && def(this.Mer) && def(this.swapI) && def(this.SwapI) && def(this.swapV) && def(this.SwapV) && def(this.swap) && def(this.swap));
-    }});
+    Constr.xrray = true;
+    p.xrray = true;
 
     Object.defineProperty(p, "empty", {get() {
       return this.length === 0;
@@ -126,30 +119,9 @@ module.exports = (function() {
       return indexes;
     }
 
-    if (p.flat !== undefined) {
-      p.Flat = p.flat;
-      p.flat = function(depth) {
-        return this.set(this.Flat(depth));
-      }
-    }
-    else {
-      p.Flat = function(depth = 1) {
-        let n = [];
-        let i = 0;
-        (function callee(a) {
-          for (let e of a) {
-            if(e instanceof Array && i < depth){
-              i++;
-              callee(e);
-            }
-            else n.add(e);
-          }
-        }(this));
-        return n;
-      }
-      p.flat = function(depth) {
-        return this.set(this.Flat(depth));
-      };
+    p.Flat = p.flat;
+    p.flat = function(depth) {
+      return this.set(this.Flat(depth));
     }
 
     p.clean = function() {
