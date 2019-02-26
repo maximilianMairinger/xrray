@@ -99,9 +99,9 @@ module.exports = (function() {
       return this.Set(this).reverse();
     }
 
-    p.forEach = p.each = p.ea = async function(f) {
-      for (var i = 0; i < this.length; i++) {
-        let e = await f(this[i], i);
+    p.forEach = p.each = p.ea = async function(f, t = this) {
+      for (var i = 0; i < t.length; i++) {
+        let e = await f.call(t, t[i], i, this);
         if (e !== undefined) return e;
       }
     }
