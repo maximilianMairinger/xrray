@@ -99,6 +99,12 @@ module.exports = (function() {
       return this.Set(this).reverse();
     }
 
+    p.forEach = p.each = p.ea = async function(f) {
+      for (var i = 0; i < this.length; i++) {
+        await f(this[i]);
+      }
+    }
+
     //Throws InvalidValueException when the given value cannot be found withing this
     // TODO: differentate indexall and indexfirst
     p.index = function(...values) {
