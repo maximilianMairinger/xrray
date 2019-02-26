@@ -101,7 +101,8 @@ module.exports = (function() {
 
     p.forEach = p.each = p.ea = async function(f) {
       for (var i = 0; i < this.length; i++) {
-        await f(this[i]);
+        let e = await f(this[i], i);
+        if (e !== undefined) return e;
       }
     }
 
