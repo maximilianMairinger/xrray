@@ -158,4 +158,9 @@ interface Array<T> {
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
 	Flat(ammount?: number): T[]
+
+
+
+	each<T = any>(loop: () => Promise<T> | T | undefined, thisOfLoop: any): Promise<T> | T | undefined;
+	ea  <T = any>(loop: () => Promise<T> | T | undefined, thisOfLoop: any): Promise<T> | T | undefined;
 }

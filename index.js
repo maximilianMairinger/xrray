@@ -99,10 +99,27 @@ module.exports = (function() {
       return this.Set(this).reverse();
     }
 
-    p.each = p.ea = async function(f, t = this) {
-      for (var i = 0; i < t.length; i++) {
-        let e = await f.call(t, t[i], i, this);
-        if (e !== undefined) return e;
+    p.each = p.ea = function(f, t = this) {
+      if (this.length > 0) {
+        let e = f.call(t, t[0], i, this);
+        if (e instanceof Promise) {
+          return (async () => {
+            let r = await e;
+            if (r !== undefined) return r;
+
+            for (var i = 1; i < t.length; i++) {
+              let e = await f.call(t, t[i], i, this);
+              if (e !== undefined) return e;
+            }
+          })();
+        }
+        else {
+          if (e !== undefined) return e;
+          for (var i = 1; i < t.length; i++) {
+            let e = f.call(t, t[i], i, this);
+            if (e !== undefined) return e;
+          }
+        }
       }
     }
 
