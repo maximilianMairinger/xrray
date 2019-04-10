@@ -84,21 +84,21 @@ interface Array<T> {
 	/**
 	 * Removes given values
 	 */
-	removeV(...index: T[]): T[];
+	removeV(...value: T[]): T[];
 	/**
 	 * Removes given values
 	 */
-	rmV(...index: T[]): T[];
-	/**
-	 * Removes given values
-	 * The inital array stays unchanged; a new one gets inited;
-	 */
-	RemoveV(...index: T[]): T[];
+	rmV(...value: T[]): T[];
 	/**
 	 * Removes given values
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
-	RmV(...index: T[]): T[];
+	RemoveV(...value: T[]): T[];
+	/**
+	 * Removes given values
+	 * The inital array stays unchanged; a new one gets inited;
+	 */
+	RmV(...value: T[]): T[];
 	/**
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
@@ -186,8 +186,16 @@ interface Array<T> {
 	 */
 	Flat(ammount?: number): T[]
 
-
-
-	each<T = any>(loop: () => Promise<T> | T | undefined, thisOfLoop: any): Promise<T> | T | undefined;
-	ea  <T = any>(loop: () => Promise<T> | T | undefined, thisOfLoop: any): Promise<T> | T | undefined;
+	/**
+	 * Alias for forEach.
+	 * awaits any promises
+	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
+	 */
+	 ea(loop: (e?: T, i?: number, ...args: any) => any, thisArg?: any): any;
+	/**
+	 * Alias for forEach.
+	 * awaits any promises
+	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
+	 */
+	ea(loop: (e?: T, i?: number, ...args: any) => any, thisArg?: any): any;
 }
