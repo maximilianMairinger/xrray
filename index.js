@@ -177,20 +177,25 @@ module.exports = (function() {
       }
       return this;
     }
+    p.rmI = p.removeI;
     //Throws InvalidIntegerException when given value is not an integer
     //Throws IndexOutOfBoundsException when given index is out of bounds of this
     p.RemoveI = function(...indexes) {
       return this.Set(this).removeI(...indexes);
     }
+    p.RmI = p.RemoveI;
 
     //Throws InvalidValueException when the given value cannot be found withing this
     p.removeV = function(...values) {
       return this.removeI(this.index(...values));
     }
+    p.rmV = p.removeV;
+
     //Throws InvalidValueException when the given value cannot be found withing this
     p.RemoveV = function(...values) {
       return this.Set(this).removeV(...values);
     }
+    p.RmV = p.RemoveV;
 
     //Throws IndexOutOfBoundsException when given param is detected as index but out of bounds of this
     //Throws InvalidValueException when the given param is detected as value but cannot be found withing this
@@ -203,11 +208,14 @@ module.exports = (function() {
       }
       return this;
     }
+    p.rm = p.remove;
+
     //Throws IndexOutOfBoundsException when given param is detected as index but out of bounds of this
     //Throws InvalidValueException when the given param is detected as value but cannot be found withing this
     p.Remove = function(...valueOrIndex) {
       return this.Set(this).remove(...valueOrIndex);
     }
+    p.Rm = p.Remove;
 
     p.Get = function(...indexes) {
       let n = [];

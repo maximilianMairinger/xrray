@@ -69,27 +69,54 @@ interface Array<T> {
 	removeI(...index: number[]): T[];
 	/**
 	 * Removes given indexes
+	 */
+	rmI(...index: number[]): T[];
+	/**
+	 * Removes given indexes
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
 	RemoveI(...index: number[]): T[];
+	/**
+	 * Removes given indexes
+	 * The inital array stays unchanged; a new one gets inited;
+	 */
+	RmI(...index: number[]): T[];
 	/**
 	 * Removes given values
 	 */
 	removeV(...index: T[]): T[];
 	/**
 	 * Removes given values
+	 */
+	rmV(...index: T[]): T[];
+	/**
+	 * Removes given values
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
 	RemoveV(...index: T[]): T[];
+	/**
+	 * Removes given values
+	 * The inital array stays unchanged; a new one gets inited;
+	 */
+	RmV(...index: T[]): T[];
 	/**
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
 	remove(...valueOrIndex: T[] | number[]): T[];
 	/**
+	 * The inital array stays unchanged; a new one gets inited;
+	 */
+	rm(...valueOrIndex: T[] | number[]): T[];
+	/**
 	 * Removes given values / indexes
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
 	Remove(...valueOrIndex: T[] | number[]): T[];
+	/**
+	 * Removes given values / indexes
+	 * The inital array stays unchanged; a new one gets inited;
+	 */
+	Rm(...valueOrIndex: T[] | number[]): T[];
 	/**
 	 * Sets the array to given indexes
 	 */
