@@ -143,11 +143,6 @@ module.exports = (function() {
       return indexes;
     }
 
-    p.Flat = p.flat;
-    p.flat = function(depth) {
-      return this.set(this.Flat(depth));
-    }
-
     p.clean = function() {
       for (let i = 0; i < this.length; i++) {
         if (this[i] === undefined || this[i] === null) {
