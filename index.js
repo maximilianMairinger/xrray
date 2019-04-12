@@ -319,13 +319,15 @@ module.exports = (function() {
       return this.Set(this).swap(vi1, vi2)
     }
 
-    p.prior = function(i) {
-      if (i !== 0) return this[i-1];
-      return this[this.length-1]
+    p.prior = function(i, by = 1) {
+      let r = i - by;
+      if (r >= 0) return this[r];
+      return this[this.length-(by-i)]
     }
-    p.next = function(i) {
-      if (i !== this.length-1) return this[i+1];
-      return this[0]
+    p.next = function(i, by = 1) {
+      let r = i + by;
+      if (r <= this.length-1) return this[r];
+      return this[by-(i-this.length-1)]
     }
 
     return Constr;

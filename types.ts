@@ -202,10 +202,10 @@ interface Array<T> {
 	 * Gets the element prior of that given as index
 	 * If the prior index would be -1 the last one is returned
 	 */
-	prior(index: number): T;
+	prior(index: number, by?: number): T;
 	/**
 	 * Gets the element next of that given as index
 	 * If the next index would be length the first one is returned
 	 */
-	next(index: number): T;
+	 next(index: number, by?: number): T;
 }
