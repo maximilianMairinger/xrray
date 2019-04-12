@@ -198,4 +198,14 @@ interface Array<T> {
 	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
 	 */
 	ea(loop: (e?: T, i?: number, ...args: any) => any, thisArg?: any): any;
+	/**
+	 * Gets the element prior of that given as index
+	 * If the prior index would be -1 the last one is returned
+	 */
+	prior(index: number): T;
+	/**
+	 * Gets the element next of that given as index
+	 * If the next index would be length the first one is returned
+	 */
+	next(index: number): T;
 }
