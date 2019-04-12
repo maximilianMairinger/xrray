@@ -324,6 +324,15 @@ module.exports = (function() {
       return this.Set(this).swap(vi1, vi2)
     }
 
+    p.prior = function(i) {
+      if (i !== 0) return this[i-1];
+      return this[this.length-1]
+    }
+    p.next = function(i) {
+      if (i !== this.length-1) return this[i+1];
+      return this[0]
+    }
+
     return Constr;
   }
   init.Exception = Exception;
