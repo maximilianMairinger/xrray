@@ -31,7 +31,7 @@ module.exports = (function() {
   }
   class InvalidValueException extends Exception {
     constructor(value, array) {
-      super("Unable to find given value: " + value.constructor.name + " " + value + "; within: " + array + ";");
+      super("Unable to find given value: " + value.constructor.name + " " + value + "; within the following array.", array);
       this.value = value;
       this.array = array;
     }
@@ -141,11 +141,6 @@ module.exports = (function() {
         }
       });
       return indexes;
-    }
-
-    p.Flat = p.flat;
-    p.flat = function(depth) {
-      return this.set(this.Flat(depth));
     }
 
     p.clean = function() {
