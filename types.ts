@@ -208,4 +208,8 @@ interface Array<T> {
 	 * If the next index would be length the first one is returned
 	 */
 	 next(index: number, by?: number): T;
+	 /**
+ 	 * Slice alias
+ 	 */
+	 copy(): T[];
 }

@@ -329,6 +329,7 @@ module.exports = (function() {
       if (r <= this.length-1) return this[r];
       return this[by-(i-this.length-1)]
     }
+    p.copy = p.slice;
 
     return Constr;
   }
