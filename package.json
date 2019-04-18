@@ -1,6 +1,6 @@
 {
   "name": "xrray",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Some utility to deal with Arrays",
   "main": "index.js",
   "scripts": {
