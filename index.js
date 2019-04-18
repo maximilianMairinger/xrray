@@ -101,7 +101,7 @@ module.exports = (function() {
 
     p.each = p.ea = function(f, t = this) {
       if (this.length > 0) {
-        let e = f.call(t, t[0], i, this);
+        let e = f.call(t, t[0], 0, this);
         if (e instanceof Promise) {
           return (async () => {
             let r = await e;
