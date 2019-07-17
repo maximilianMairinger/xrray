@@ -18,6 +18,12 @@ interface Array<T> {
 	 * First element
 	 */
 	readonly first: T;
+
+	/**
+	 * clones
+	 */
+	clone(): T[];
+
 	/**
 	 * Clears the array of all elements
 	 */

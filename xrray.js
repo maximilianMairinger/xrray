@@ -91,8 +91,11 @@ module.exports = (function() {
       return this.clear().add(a);
     }
     p.Set = function(a = []) {
-      if(a instanceof Array) return new Constr().add(...a);
-      return new Constr().add(a);
+      return new Constr().add(...a);
+    }
+
+    p.clone = function() {
+      return this.Set(this);
     }
 
     p.Reverse = function() {
@@ -167,7 +170,7 @@ module.exports = (function() {
         });
         this.clean();
       } catch (e) {
-        if(e instanceof InvalidIntegerException || e instanceof IndexOutOfBoundsException) this.set(rollback);
+        if (e instanceof InvalidIntegerException || e instanceof IndexOutOfBoundsException) this.set(rollback);
         throw e;
       }
       return this;
