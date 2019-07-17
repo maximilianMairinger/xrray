@@ -197,16 +197,28 @@ interface Array<T> {
 	 * awaits any promises
 	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
 	 */
-	 ea(loop: (e?: T, i?: number, ...args: any) => any, thisArg?: any): any;
+	each(loop: (e?: T, i?: number, ...args: any) => any, thisArg?: any): any;
 	/**
 	 * Alias for forEach.
 	 * awaits any promises
 	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
 	 */
 	ea(loop: (e?: T, i?: number, ...args: any) => any, thisArg?: any): any;
+
+	/**
+	 * Add elements a to array but only if they are not already present
+	 */
+	gather(...a: T[]): this;
+	/**
+	 * Add elements a to array but only if they are not already present
+	 * The inital array stays unchanged; a new one gets inited;
+	 */
+	Gather(...a: T[]): T[];
+
+
 	/**
 	 * Gets the element prior of that given as index
-	 * If the prior index would be -1 the last one is returned
+	 * If the prior index would be -1 the last element is returned
 	 */
 	prior(index: number, by?: number): T;
 	/**

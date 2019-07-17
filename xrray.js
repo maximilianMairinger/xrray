@@ -126,6 +126,21 @@ module.exports = (function() {
       }
     }
 
+    p.gather = function(...a) {
+      a.ea((e) => {
+        if (!this.includes(e)) this.add(e);
+      })
+      return this;
+    }
+
+    p.Gather = function(...a) {
+      let t = this.clone();
+      a.ea((e) => {
+        if (!t.includes(e)) t.add(e);
+      })
+      return t;
+    }
+
     //Throws InvalidValueException when the given value cannot be found withing this
     // TODO: differentate indexall and indexfirst
     p.index = function(...values) {
