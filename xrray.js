@@ -31,7 +31,7 @@ module.exports = (function() {
   }
   class InvalidValueException extends Exception {
     constructor(value, array) {
-      super("Unable to find given value: " + value.constructor.name + " " + value + "; within the following array.", array);
+      super("Unable to find given value: " + value.constructor.name + " " + JSON.stringify(value) + "; within following array." + array.toString());
       this.value = value;
       this.array = array;
     }
