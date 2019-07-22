@@ -14,11 +14,6 @@ module.exports = (function() {
       this.array = array;
     }
   }
-  class InvalidIntegerException extends Exception {
-    constructor(msg = "") {
-      super("Given value must be an Integer.\n" + msg);
-    }
-  }
   class InvalidInputException extends Exception {
     constructor(msg) {
       super("Given input is invalid.\n" + msg);
@@ -31,7 +26,7 @@ module.exports = (function() {
   }
   class InvalidValueException extends Exception {
     constructor(value, array) {
-      super("Unable to find given value: " + value.constructor.name + " " + JSON.stringify(value) + "; within following array." + array.toString());
+      super("Unable to find given value: " + value.constructor.name + " " + JSON.stringify(value) + "; within following array: " + array.toString());
       this.value = value;
       this.array = array;
     }
@@ -41,11 +36,9 @@ module.exports = (function() {
     return a !== undefined;
   }
 
-  //Throws InvalidIntegerException when given value is not an integer
   //Throws IndexOutOfBoundsException when given index is out of bounds of a
   function isIndex(i, a) {
-    if (typeof i !== "number" || !Number.isInteger(i)) throw new InvalidIntegerException();
-    if(i >= a.length || i < 0) throw new IndexOutOfBoundsException(i,a);
+    if(!a.hasOwnProperty(i)) throw new IndexOutOfBoundsException(i,a);
   }
 
   function init(Constr = class extends Array {constructor(...a){super(...a);}}) {
@@ -102,6 +95,7 @@ module.exports = (function() {
       return this.Set(this).reverse();
     }
 
+    //maybe make function iterate on object and use it here
     p.each = p.ea = function(f, t = this) {
       if (this.length > 0) {
         let e = f.call(t, t[0], 0, this);
@@ -111,6 +105,7 @@ module.exports = (function() {
             if (r !== undefined) return r;
 
             for (var i = 1; i < t.length; i++) {
+              if (!t.hasOwnProperty(i)) continue;
               let e = await f.call(t, t[i], i, this);
               if (e !== undefined) return e;
             }
@@ -119,6 +114,7 @@ module.exports = (function() {
         else {
           if (e !== undefined) return e;
           for (var i = 1; i < t.length; i++) {
+            if (!t.hasOwnProperty(i)) continue;
             let e = f.call(t, t[i], i, this);
             if (e !== undefined) return e;
           }
@@ -141,10 +137,11 @@ module.exports = (function() {
       return t;
     }
 
+    let mark = {};
+
     //Throws InvalidValueException when the given value cannot be found withing this
     // TODO: differentate indexall and indexfirst
     p.index = function(...values) {
-      let empty = new Object(null);
       let that = this.Set(this);
       let indexes = new Constr();
       values.forEach((v) => {
@@ -153,54 +150,43 @@ module.exports = (function() {
           let index = that.indexOf(v);
           if (indexes.last !== index && index !== -1){
             indexes.add(index);
-            that[index] = empty;
+            that[index] = mark;
           }
           else break;
         }
       });
       return indexes;
     }
-
-    p.clean = function() {
-      for (let i = 0; i < this.length; i++) {
-        if (this[i] === undefined || this[i] === null) {
-          this.splice(i, 1);
-          i--;
-        }
-      }
-      return this;
-    }
-    p.Clean = function() {
-      return this.Set(this).clean();
-    }
-
-    //Throws InvalidIntegerException when given value is not an integer
     //Throws IndexOutOfBoundsException when given index is out of bounds of this
-    p.removeI = function(...indexes) {
+    p.removeI = function(...indices) {
       let rollback = this.Set(this);
       try {
-        indexes.flat(Infinity).forEach((i) => {
-          isIndex(i,this);
-          this[i] = null;
-        });
-        this.clean();
+        for (let i = 0; i < indices.length; i++) {
+          isIndex(indices[i], this)
+          this[indices[i]] = mark;
+        }
+        for (let i = 0; i < this.length; i++) {
+          if (this[i] === mark) {
+            this.splice(i, 1);
+            i--;
+          }
+        }
       } catch (e) {
-        if (e instanceof InvalidIntegerException || e instanceof IndexOutOfBoundsException) this.set(rollback);
+        if (e instanceof IndexOutOfBoundsException) this.set(rollback);
         throw e;
       }
       return this;
     }
     p.rmI = p.removeI;
-    //Throws InvalidIntegerException when given value is not an integer
     //Throws IndexOutOfBoundsException when given index is out of bounds of this
-    p.RemoveI = function(...indexes) {
-      return this.Set(this).removeI(...indexes);
+    p.RemoveI = function(...indices) {
+      return this.Set(this).removeI(...indices);
     }
     p.RmI = p.RemoveI;
 
     //Throws InvalidValueException when the given value cannot be found withing this
     p.removeV = function(...values) {
-      return this.removeI(this.index(...values));
+      return this.removeI(...this.index(...values));
     }
     p.rmV = p.removeV;
 
@@ -210,13 +196,12 @@ module.exports = (function() {
     }
     p.RmV = p.RemoveV;
 
-    //Throws IndexOutOfBoundsException when given param is detected as index but out of bounds of this
     //Throws InvalidValueException when the given param is detected as value but cannot be found withing this
     p.remove = function(...valueOrIndex) {
       try {
         this.removeI(...valueOrIndex);
       } catch (e) {
-        if (e instanceof InvalidIntegerException) this.removeV(...valueOrIndex);
+        if (e instanceof IndexOutOfBoundsException) this.removeV(...valueOrIndex);
         else throw e;
       }
       return this;
@@ -248,31 +233,26 @@ module.exports = (function() {
       return this.Reverse().add(...values).reverse();
     }
 
-    //Throws InvalidIntegerException when given value is not an integer
     //Throws IndexOutOfBoundsException when given index is out of bounds of a
     p.rem = function(amount) {
       isIndex(amount,this);
       this.length -= amount;
       return this;
     }
-    //Throws InvalidIntegerException when given value is not an integer
     //Throws IndexOutOfBoundsException when given index is out of bounds of a
     p.Rem = function(amount) {
       return this.Set(this).rem(amount);
     }
 
-    //Throws InvalidIntegerException when given value is not an integer
     //Throws IndexOutOfBoundsException when given index is out of bounds of a
     p.mer = function(amount) {
       return this.reverse().rem(amount).reverse();
     }
-    //Throws InvalidIntegerException when given value is not an integer
     //Throws IndexOutOfBoundsException when given index is out of bounds of a
     p.Mer = function(amount) {
       return this.Reverse().rem(amount).reverese();
     }
 
-    //Throws InvalidIntegerException when given parameters are not is not an integer (arrays)
     //Throws IndexOutOfBoundsException when given index(es) are out of bounds of this
     //Throws InvalidInputException when given parameters are not equal in length
     p.swapI = function(i1, i2) {
@@ -287,14 +267,13 @@ module.exports = (function() {
             [this[i1[i]],this[i2[i]]] = [this[i2[i]],this[i1[i]]];
           }
         } catch (e) {
-          if(e instanceof InvalidIntegerException || e instanceof IndexOutOfBoundsException) this.set(rollback);
+          if(e instanceof IndexOutOfBoundsException) this.set(rollback);
           throw e;
         }
         return this;
       }
       throw new InvalidInputException("Parameter i1 and i2 must ether be two indexes, or two index-Arrays of the same length.");
     }
-    //Throws InvalidIntegerException when given parameters are not is not an integer (arrays)
     //Throws IndexOutOfBoundsException when given index(es) are out of bounds of this
     //Throws InvalidInputException when given parameters are not equal in length
     p.SwapI = function(i1, i2) {
@@ -326,7 +305,7 @@ module.exports = (function() {
       try {
         this.swapI(vi1, vi2);
       } catch (e) {
-        if (e instanceof InvalidIntegerException) this.swapV(vi1, vi2);
+        if (e instanceof IndexOutOfBoundsException) this.swapV(vi1, vi2);
         else throw e;
       }
       return this;
@@ -353,7 +332,6 @@ module.exports = (function() {
   }
   init.Exception = Exception;
   init.IndexOutOfBoundsException = IndexOutOfBoundsException;
-  init.InvalidIntegerException = InvalidIntegerException;
   init.InvalidInputException = InvalidInputException;
   init.InvalidConstructorException = InvalidConstructorException;
   init.InvalidValueException = InvalidValueException;
