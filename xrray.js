@@ -58,6 +58,14 @@ module.exports = (function() {
       return this[this.length-1];
     }});
 
+    Object.defineProperty(p, "realLength", {get() {
+      let l = 0;
+      for (let i = 0; i < this.length; i++) {
+        if (this.hasOwnProperty(i)) l++;
+      }
+      return l;
+    }});
+
     Object.defineProperty(p, "first", {get() {
       return this[0];
     }});

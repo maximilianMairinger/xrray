@@ -20,6 +20,11 @@ interface Array<T> {
 	readonly first: T;
 
 	/**
+	 * length without empty slots
+	 */
+	readonly realLength: number;
+
+	/**
 	 * clones
 	 */
 	clone(): T[];
