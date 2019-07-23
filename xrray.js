@@ -106,13 +106,21 @@ module.exports = (function() {
     //maybe make function iterate on object and use it here
     p.each = p.ea = function(f, t = this) {
       if (this.length > 0) {
-        let e = f.call(t, t[0], 0, this);
+        let e;
+        let startI;
+        for (startI = 0; startI < t.length; startI++) {
+          if (t.hasOwnProperty(startI)) {
+            e = f.call(t, t[startI], startI, this);
+            break;
+          }
+        }
+        startI++;
         if (e instanceof Promise) {
           return (async () => {
             let r = await e;
             if (r !== undefined) return r;
 
-            for (var i = 1; i < t.length; i++) {
+            for (let i = startI; i < t.length; i++) {
               if (!t.hasOwnProperty(i)) continue;
               let e = await f.call(t, t[i], i, this);
               if (e !== undefined) return e;
@@ -121,7 +129,7 @@ module.exports = (function() {
         }
         else {
           if (e !== undefined) return e;
-          for (var i = 1; i < t.length; i++) {
+          for (let i = startI; i < t.length; i++) {
             if (!t.hasOwnProperty(i)) continue;
             let e = f.call(t, t[i], i, this);
             if (e !== undefined) return e;
