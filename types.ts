@@ -1,23 +1,23 @@
 //Copy this to your global.d.ts if you attatch this to Array.
 //When not change Array to the given constrctor (and copy it to the used file)
 
-interface Object<Values = any> {
+interface Object {
   cloneData: <T extends Object>() => T;
  /**
-  * Alias for forEach.
+  * Iterates over all own properties
   * awaits any promises
   * when !== undefined gets returned => the the loop stopts and the returned val gets returned
   */
- ea<R>(loop: (e?: Values, i?: number, ...args: any) => R, thisArg?: any): R;
+ ea<R>(loop: (e?: any, i?: number, ...args: any) => R, thisArg?: any): R;
  /**
-  * Alias for forEach.
+  * Iterates over all own properties
   * awaits any promises
   * when !== undefined gets returned => the the loop stopts and the returned val gets returned
   */
- each<R>(loop: (e?: Values, i?: number, ...args: any) => R, thisArg?: any): R;
+ each<R>(loop: (e?: any, i?: number, ...args: any) => R, thisArg?: any): R;
 }
 
-interface Array<T> extends Object<T> {
+interface Array<T> extends Object {
 	/**
 	 * True if empty
 	 */
@@ -61,6 +61,18 @@ interface Array<T> extends Object<T> {
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
 	Set(array: T[] | T[]): T[];
+	/**
+	 * Iterates over all own properties
+	 * awaits any promises
+	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
+	 */
+	ea<R>(loop: (e?: any, i?: number, ...args: any) => R, thisArg?: any): R;
+	/**
+	 * Iterates over all own properties
+	 * awaits any promises
+	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
+	 */
+	each<R>(loop: (e?: any, i?: number, ...args: any) => R, thisArg?: any): R;
 	/**
 	 * Reverts the array
 	 * The inital array stays unchanged; a new one gets inited;
