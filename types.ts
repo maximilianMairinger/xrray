@@ -1,7 +1,23 @@
 //Copy this to your global.d.ts if you attatch this to Array.
 //When not change Array to the given constrctor (and copy it to the used file)
 
-interface Array<T> {
+interface Object<Values = any> {
+  cloneData: <T extends Object>() => T;
+ /**
+  * Alias for forEach.
+  * awaits any promises
+  * when !== undefined gets returned => the the loop stopts and the returned val gets returned
+  */
+ ea<R>(loop: (e?: Values, i?: number, ...args: any) => R, thisArg?: any): R;
+ /**
+  * Alias for forEach.
+  * awaits any promises
+  * when !== undefined gets returned => the the loop stopts and the returned val gets returned
+  */
+ each<R>(loop: (e?: Values, i?: number, ...args: any) => R, thisArg?: any): R;
+}
+
+interface Array<T> extends Object<T> {
 	/**
 	 * True if empty
 	 */
@@ -189,19 +205,6 @@ interface Array<T> {
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
 	Flat(ammount?: number): T[]
-
-	/**
-	 * Alias for forEach.
-	 * awaits any promises
-	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
-	 */
-	 ea<R>(loop: (e?: T, i?: number, ...args: any) => R, thisArg?: any): R;
-	/**
-	 * Alias for forEach.
-	 * awaits any promises
-	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
-	 */
-	 each<R>(loop: (e?: T, i?: number, ...args: any) => R, thisArg?: any): R;
 	 /**
  	 * Add elements a to array but only if they are not already present
  	 */
