@@ -37,8 +37,16 @@ module.exports = (function() {
     if(!a.hasOwnProperty(i)) throw new IndexOutOfBoundsException(i,a);
   }
 
+  const ar = "array";
+  const ob = "object";
+
   function init(ArConstr = Array, ObConstr = Object) {
     if(!(new arConstr() instanceof Array)) throw new InvalidConstructorException();
+    if (ArConstr.xrray === ar || ObConstr.xrray === ob) return {ArConstr, ObConstr};
+
+    ObConstr.xrray = ob;
+    ArConstr.xrray = ar;
+
     let o = ObConstr.prototype;
     let p = ArConstr.prototype;
 
@@ -349,6 +357,8 @@ module.exports = (function() {
       return this[by-(i-this.length-1)]
     }
     p.copy = p.slice;
+
+    return {ArConstr, ObConstr}
   }
   init.Exception = Exception;
   init.IndexOutOfBoundsException = IndexOutOfBoundsException;
