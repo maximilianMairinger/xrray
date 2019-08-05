@@ -32,22 +32,63 @@ module.exports = (function() {
     }
   }
 
-  function def(a) {
-    return a !== undefined;
-  }
-
   //Throws IndexOutOfBoundsException when given index is out of bounds of a
   function isIndex(i, a) {
     if(!a.hasOwnProperty(i)) throw new IndexOutOfBoundsException(i,a);
   }
 
-  function init(Constr = class extends Array {constructor(...a){super(...a);}}) {
-    if(!(new Constr() instanceof Array)) throw new InvalidConstructorException();
-    if(Constr.xrray) return Constr;
-    let p = Constr.prototype;
+  function init(ArConstr = Array, ObConstr = Object) {
+    if(!(new arConstr() instanceof Array)) throw new InvalidConstructorException();
+    let o = ObConstr.prototype;
+    let p = ArConstr.prototype;
 
-    Constr.xrray = true;
-    p.xrray = true;
+
+    o.cloneData = function() {
+      return JSON.parse(JSON.stringify(this))
+    }
+
+    o.each = o.ea = function(f, t = this) {
+      let allKeys = Object.keys(t);
+      let keys = new ArConstr();
+      for (let i = 0; i < allKeys.length; i++) {
+        if (t.hasOwnProperty(allKeys[i])) keys.add(allKeys[i])
+      }
+      if (t instanceof Array) {
+        for (let i = 0; i < keys.length; i++) {
+          try {
+            keys[i] = parseInt(keys[i])
+          }
+          catch (e) {
+
+          }
+        }
+      }
+      if (keys.length > 0) {
+        let e;
+        let startI = 0;
+        e = f.call(t, t[keys[startI]], keys[startI], this);
+
+        startI++;
+        if (e instanceof Promise) {
+          return (async () => {
+            let r = await e;
+            if (r !== undefined) return r;
+
+            for (let i = startI; i < keys.length; i++) {
+              let e = await f.call(t, t[keys[i]], keys[i], this);
+              if (e !== undefined) return e;
+            }
+          })();
+        }
+        else {
+          if (e !== undefined) return e;
+          for (let i = startI; i < keys.length; i++) {
+            let e = f.call(t, t[keys[i]], keys[i], this);
+            if (e !== undefined) return e;
+          }
+        }
+      }
+    }
 
     Object.defineProperty(p, "empty", {get() {
       return this.length === 0;
@@ -75,7 +116,7 @@ module.exports = (function() {
       return this;
     }
     p.Clear = function() {
-      return new Constr();
+      return new ArConstr();
     }
 
     p.add = function(...values) {
@@ -83,7 +124,7 @@ module.exports = (function() {
       return this;
     }
     p.Add = function(...values) {
-      return new Constr().add(...this).add(...values);
+      return new ArConstr().add(...this).add(...values);
     }
 
     p.set = function(a = []) {
@@ -92,7 +133,7 @@ module.exports = (function() {
       return this.clear().add(a);
     }
     p.Set = function(a = []) {
-      return new Constr().add(...a);
+      return new ArConstr().add(...a);
     }
 
     p.clone = function() {
@@ -101,41 +142,6 @@ module.exports = (function() {
 
     p.Reverse = function() {
       return this.Set(this).reverse();
-    }
-
-    //maybe make function iterate on object and use it here
-    p.each = p.ea = function(f, t = this) {
-      if (this.length > 0) {
-        let e;
-        let startI;
-        for (startI = 0; startI < t.length; startI++) {
-          if (t.hasOwnProperty(startI)) {
-            e = f.call(t, t[startI], startI, this);
-            break;
-          }
-        }
-        startI++;
-        if (e instanceof Promise) {
-          return (async () => {
-            let r = await e;
-            if (r !== undefined) return r;
-
-            for (let i = startI; i < t.length; i++) {
-              if (!t.hasOwnProperty(i)) continue;
-              let e = await f.call(t, t[i], i, this);
-              if (e !== undefined) return e;
-            }
-          })();
-        }
-        else {
-          if (e !== undefined) return e;
-          for (let i = startI; i < t.length; i++) {
-            if (!t.hasOwnProperty(i)) continue;
-            let e = f.call(t, t[i], i, this);
-            if (e !== undefined) return e;
-          }
-        }
-      }
     }
 
     p.gather = function(...a) {
@@ -159,8 +165,8 @@ module.exports = (function() {
     // TODO: differentate indexall and indexfirst
     p.index = function(...values) {
       let that = this.Set(this);
-      let indexes = new Constr();
-      values.forEach((v) => {
+      let indexes = new ArConstr();
+      values.ea((v) => {
         if(!this.includes(v)) throw new InvalidValueException(v,this);
         while (true) {
           let index = that.indexOf(v);
@@ -343,8 +349,6 @@ module.exports = (function() {
       return this[by-(i-this.length-1)]
     }
     p.copy = p.slice;
-
-    return Constr;
   }
   init.Exception = Exception;
   init.IndexOutOfBoundsException = IndexOutOfBoundsException;

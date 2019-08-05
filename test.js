@@ -1,17 +1,23 @@
 require('./xrray')(Array);
 
-console.log("start");
 
-let a = [];
+// let a = [];
+//
+// a[1] = "ewq"
+// a[3] = "qwe"
+//
+// a.ea((e, i) => {
+//   return new Promise((res) => {
+//     setTimeout(() => {
+//       console.log(e, i);
+//       res()
+//     }, 1000)
+//   })
+// })
 
-a[1] = "ewq"
-a[3] = "qwe"
+
+let a = {qwe: "a", asd: "b"};
 
 a.ea((e, i) => {
-  return new Promise((res) => {
-    setTimeout(() => {
-      console.log(e, i);
-      res()
-    }, 1000)
-  })
+  console.log(e, i);
 })

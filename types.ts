@@ -3,10 +3,6 @@
 
 interface Array<T> {
 	/**
-	 * True if xrray is attatched
-	 */
-	readonly xrray: boolean;
-	/**
 	 * True if empty
 	 */
 	readonly empty: boolean;
@@ -18,17 +14,10 @@ interface Array<T> {
 	 * First element
 	 */
 	readonly first: T;
-
 	/**
 	 * length without empty slots
 	 */
 	readonly realLength: number;
-
-	/**
-	 * clones
-	 */
-	clone(): T[];
-
 	/**
 	 * Clears the array of all elements
 	 */
@@ -50,12 +39,12 @@ interface Array<T> {
 	/**
 	 * Sets the array to the given one without chnaging the refernece
 	 */
-	set(array: T[]): T[];
+	set(array: T[] | T[]): T[];
 	/**
 	 * Sets the array to the given one without chnaging the refernece
 	 * The inital array stays unchanged; a new one gets inited;
 	 */
-	Set(array: T[]): T[];
+	Set(array: T[] | T[]): T[];
 	/**
 	 * Reverts the array
 	 * The inital array stays unchanged; a new one gets inited;
@@ -69,6 +58,10 @@ interface Array<T> {
 	 * Cleans the array of all nulls and undefineds
 	 */
 	clean(): T[];
+	/**
+	 * clones
+	 */
+	clone(): T[];
 	/**
 	 * Cleans the array of all nulls and undefineds
 	 * The inital array stays unchanged; a new one gets inited;
@@ -202,28 +195,25 @@ interface Array<T> {
 	 * awaits any promises
 	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
 	 */
-	each(loop: (e?: T, i?: number, ...args: any) => any, thisArg?: any): any;
+	 ea<R>(loop: (e?: T, i?: number, ...args: any) => R, thisArg?: any): R;
 	/**
 	 * Alias for forEach.
 	 * awaits any promises
 	 * when !== undefined gets returned => the the loop stopts and the returned val gets returned
 	 */
-	ea(loop: (e?: T, i?: number, ...args: any) => any, thisArg?: any): any;
-
-	/**
-	 * Add elements a to array but only if they are not already present
-	 */
-	gather(...a: T[]): this;
-	/**
-	 * Add elements a to array but only if they are not already present
-	 * The inital array stays unchanged; a new one gets inited;
-	 */
-	Gather(...a: T[]): T[];
-
-
+	 each<R>(loop: (e?: T, i?: number, ...args: any) => R, thisArg?: any): R;
+	 /**
+ 	 * Add elements a to array but only if they are not already present
+ 	 */
+ 	gather(...a: T[]): this;
+ 	/**
+ 	 * Add elements a to array but only if they are not already present
+ 	 * The inital array stays unchanged; a new one gets inited;
+ 	 */
+ 	Gather(...a: T[]): T[];
 	/**
 	 * Gets the element prior of that given as index
-	 * If the prior index would be -1 the last element is returned
+	 * If the prior index would be -1 the last one is returned
 	 */
 	prior(index: number, by?: number): T;
 	/**
@@ -231,8 +221,26 @@ interface Array<T> {
 	 * If the next index would be length the first one is returned
 	 */
 	 next(index: number, by?: number): T;
-	 /**
- 	 * Slice alias
- 	 */
-	 copy(): T[];
+}
+
+interface IndexOutOfBoundsException extends Exception {
+	index: number;
+	array: any[];
+}
+
+interface InvalidInputException extends Exception {
+
+}
+
+interface InvalidConstructorException extends Exception {
+
+}
+
+interface InvalidValueException extends Exception {
+	value: any;
+	array: any[];
+}
+
+interface Exception extends Error {
+	message: string;
 }
