@@ -63,12 +63,9 @@ module.exports = (function() {
       }
       if (t instanceof Array) {
         for (let i = 0; i < keys.length; i++) {
-          try {
-            keys[i] = parseInt(keys[i])
-          }
-          catch (e) {
-
-          }
+          let keyNum = parseInt(keys[i])
+          if (keyNum == keys[i]) keys[i] = keyNum
+          else keys.remove(i)
         }
       }
       if (keys.length > 0) {
