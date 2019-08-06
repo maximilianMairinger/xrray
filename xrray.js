@@ -41,7 +41,7 @@ module.exports = (function() {
   const ob = "object";
 
   function init(ArConstr = Array, ObConstr = Object) {
-    if(!(new arConstr() instanceof Array)) throw new InvalidConstructorException();
+    if(!(new ArConstr() instanceof Array)) throw new InvalidConstructorException();
     if (ArConstr.xrray === ar || ObConstr.xrray === ob) return {ArConstr, ObConstr};
 
     ObConstr.xrray = ob;
