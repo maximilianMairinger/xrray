@@ -57,17 +57,20 @@ module.exports = (function() {
 
     o.each = o.ea = function(f, t = this) {
       let allKeys = Object.keys(t);
-      let keys = new ArConstr();
+      let keys = [];
       for (let i = 0; i < allKeys.length; i++) {
         if (t.hasOwnProperty(allKeys[i])) keys.add(allKeys[i])
       }
+      let ignore = [];
       if (t instanceof Array) {
         for (let i = 0; i < keys.length; i++) {
           let keyNum = parseInt(keys[i])
           if (keyNum == keys[i]) keys[i] = keyNum
-          else keys.remove(i)
+          else ignore.add(i)
         }
       }
+      keys.rmI(...ignore)
+
       if (keys.length > 0) {
         let e;
         let startI = 0;
