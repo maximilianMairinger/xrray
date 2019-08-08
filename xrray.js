@@ -37,61 +37,44 @@ module.exports = (function() {
     if(!a.hasOwnProperty(i)) throw new IndexOutOfBoundsException(i,a);
   }
 
-  const ar = "array";
-  const ob = "object";
+  const ar = "xrray";
 
-  function init(ArConstr = Array, ObConstr = Object) {
+  function init(ArConstr = Array) {
     if(!(new ArConstr() instanceof Array)) throw new InvalidConstructorException();
-    if (ArConstr.xrray === ar || ObConstr.xrray === ob) return {ArConstr, ObConstr};
+    if (ArConstr.xrray === ar) return ArConstr;
 
-    ObConstr.xrray = ob;
     ArConstr.xrray = ar;
 
-    let o = ObConstr.prototype;
     let p = ArConstr.prototype;
 
-
-    o.cloneData = function() {
-      return JSON.parse(JSON.stringify(this))
-    }
-
-    o.each = o.ea = function(f, t = this) {
-      let allKeys = Object.keys(t);
-      let keys = [];
-      for (let i = 0; i < allKeys.length; i++) {
-        if (t.hasOwnProperty(allKeys[i])) keys.add(allKeys[i])
-      }
-      let ignore = [];
-      if (t instanceof Array) {
-        for (let i = 0; i < keys.length; i++) {
-          let keyNum = parseInt(keys[i])
-          if (keyNum == keys[i]) keys[i] = keyNum
-          else ignore.add(i)
-        }
-      }
-      keys.rmI(...ignore)
-
-      if (keys.length > 0) {
+    p.each = p.ea = function(f, t = this) {
+      if (this.length > 0) {
         let e;
-        let startI = 0;
-        e = f.call(t, t[keys[startI]], keys[startI], this);
-
+        let startI;
+        for (startI = 0; startI < t.length; startI++) {
+          if (t.hasOwnProperty(startI)) {
+            e = f.call(t, t[startI], startI, this);
+            break;
+          }
+        }
         startI++;
         if (e instanceof Promise) {
           return (async () => {
             let r = await e;
             if (r !== undefined) return r;
 
-            for (let i = startI; i < keys.length; i++) {
-              let e = await f.call(t, t[keys[i]], keys[i], this);
+            for (let i = startI; i < t.length; i++) {
+              if (!t.hasOwnProperty(i)) continue;
+              let e = await f.call(t, t[i], i, this);
               if (e !== undefined) return e;
             }
           })();
         }
         else {
           if (e !== undefined) return e;
-          for (let i = startI; i < keys.length; i++) {
-            let e = f.call(t, t[keys[i]], keys[i], this);
+          for (let i = startI; i < t.length; i++) {
+            if (!t.hasOwnProperty(i)) continue;
+            let e = f.call(t, t[i], i, this);
             if (e !== undefined) return e;
           }
         }
@@ -358,7 +341,7 @@ module.exports = (function() {
     }
     p.copy = p.slice;
 
-    return {ArConstr, ObConstr}
+    return ArConstr
   }
   init.Exception = Exception;
   init.IndexOutOfBoundsException = IndexOutOfBoundsException;
