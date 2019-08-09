@@ -339,7 +339,11 @@ module.exports = (function() {
       if (r <= this.length-1) return this[r];
       return this[by-(i-this.length-1)]
     }
-    p.copy = p.slice;
+
+    p.inject = function(item, index) {
+      this.splice(index, 0, item);
+      return this
+    }
 
     return ArConstr
   }
