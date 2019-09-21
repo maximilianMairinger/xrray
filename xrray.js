@@ -351,6 +351,12 @@ module.exports = (function() {
       }
       return true
     }
+    p.excludes = function(...vals) {
+      for (let v of vals) {
+        if (this.includes(v)) return false
+      }
+      return true
+    }
 
     return ArConstr
   }
