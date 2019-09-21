@@ -345,6 +345,13 @@ module.exports = (function() {
       return this
     }
 
+    p.contains = function(...vals) {
+      for (let v of vals) {
+        if (!this.includes(v)) return false
+      }
+      return true
+    }
+
     return ArConstr
   }
   init.Exception = Exception;
