@@ -231,7 +231,7 @@ interface Array<T> extends Object {
 	/**
 	 * True if non of the given vals are included within this
 	 */
-	contains(...vals: T[]): boolean
+	excludes(...vals: T[]): boolean
 }
 
 interface IndexOutOfBoundsException extends Exception {
