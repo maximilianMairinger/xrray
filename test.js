@@ -3,9 +3,11 @@ require('./xrray')(Array);
 
 
 
-let a = ["a", "b"];
+let a = [5, 3, 123, 3];
 
 
-for (let k of a) {
-  console.log(k + ": " + a[k]);
+console.log(a.closest(0))
+
+for (let i = 0; i < a.length; i++) {
+  console.log(i + ": " + a[i]);
 }

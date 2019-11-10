@@ -1,7 +1,7 @@
 //Copy this to your global.d.ts if you attatch this to Array.
 //When not change Array to the given constrctor (and copy it to the used file)
 
-interface Array<T> extends Object {
+interface Array<T> {
 	/**
 	 * True if empty
 	 */
@@ -232,6 +232,15 @@ interface Array<T> extends Object {
 	 * True if non of the given vals are included within this
 	 */
 	excludes(...vals: T[]): boolean
+
+	/**
+	 * Finds the closest element of an numeric array to given to
+	 */
+	closest: T extends number ? (to: number) => number : typeof undefined
+	/**
+	 * Finds the closest element of an numeric array to given to
+	 */
+	nearest: T extends number ? (to: number) => number : typeof undefined
 }
 
 interface IndexOutOfBoundsException extends Exception {

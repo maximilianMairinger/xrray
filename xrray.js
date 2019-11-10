@@ -358,6 +358,23 @@ module.exports = (function() {
       return true
     }
 
+    p.closest = p.nearest = function(to /*: number*/) {
+      let a = []
+      for (let i = 0; i < this.length; i++) {
+        a[i] = Math.abs(this[i] - to)
+      }
+      let smallest = Infinity
+      let index = -1
+      for (let i = 0; i < a.length; i++) {
+        let diff = a[i]
+        if (diff < smallest) {
+          smallest = diff
+          index = i
+        }
+      }
+      return index
+    }
+
     return ArConstr
   }
   init.Exception = Exception;
