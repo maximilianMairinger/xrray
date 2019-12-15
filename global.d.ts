@@ -245,7 +245,7 @@ interface Array<T> extends Xrray.innerExtention<T> {
 
 }
 
-namespace Xrray {
+declare namespace Xrray {
 	export interface innerExtention<T>{
 		/*
 		 * Steps into step of all entries
