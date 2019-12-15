@@ -427,6 +427,19 @@ module.exports = (function() {
       return index
     })
 
+    appendToXrray("inner", function(step) {
+      this.ea((e, i) => {
+        this[i] = e[step]
+      })
+      return this
+    })
+
+    appendToXrray("Inner", function(step) {
+      return this.Set(this).inner(step)
+    })
+
+
+
     return Xrray
   }
   init.Exception = Exception;
