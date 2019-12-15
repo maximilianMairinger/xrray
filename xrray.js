@@ -77,7 +77,7 @@ module.exports = (function() {
 
     ArConstr.xrray = ar;
 
-    const appendToArray = appendToPrototypeOf(ArConstr)
+    const appendToArray = appendToPrototypeOf(ArConstr.prototype)
 
 
     appendToArray(["each", "ea"], function(f, t = this) {

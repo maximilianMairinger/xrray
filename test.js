@@ -9,3 +9,6 @@ for (const k in a) {
   console.log(k + ": ", a[k]);
   
 }
+
+console.log(a.add("asd"));
+
