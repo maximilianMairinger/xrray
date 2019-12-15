@@ -1,5 +1,6 @@
 module.exports = (function() {
-  'use strict';
+  
+
   class Exception extends Error {
     constructor(msg) {
       super();
@@ -37,6 +38,37 @@ module.exports = (function() {
     if(!a.hasOwnProperty(i)) throw new IndexOutOfBoundsException(i,a);
   }
 
+  function appendToPrototypeOf(of) {
+    return function(name, func) {
+      const isFunc = typeof func === "function"
+      if (name instanceof Array) {
+        for (let i = 0; i < name.length; i++) {
+          appendToPrototype(name[i], func, isFunc)
+        }
+      }
+      else appendToPrototype(name, func, isFunc)
+    }
+
+    function appendToPrototype(name, func, isFunc) {
+      let ob
+      if (isFunc) {
+        ob = {
+          value: func,
+          enumerable: false
+        }
+      }
+      else {
+        ob = func
+        ob.enumerable = false
+      }
+
+      Object.defineProperty(of, name, ob)
+    }
+  }
+
+  
+
+
   const ar = "xrray";
 
   function init(ArConstr = Array) {
@@ -45,9 +77,10 @@ module.exports = (function() {
 
     ArConstr.xrray = ar;
 
-    let p = ArConstr.prototype;
+    const appendToArray = appendToPrototypeOf(ArConstr)
 
-    p.each = p.ea = function(f, t = this) {
+
+    appendToArray(["each", "ea"], function(f, t = this) {
       if (this.length > 0) {
         let e;
         let startI;
@@ -79,82 +112,86 @@ module.exports = (function() {
           }
         }
       }
-    }
+    })
 
-    Object.defineProperty(p, "empty", {get() {
+    appendToArray("empty", {get() {
       return this.length === 0;
-    }});
+    }})
 
-    Object.defineProperty(p, "last", {get() {
-      if(this.length === 0) return undefined;
+    appendToArray("last", {get() {
+      if (this.length === 0) return undefined;
       return this[this.length-1];
-    }});
+    }})
 
-    Object.defineProperty(p, "realLength", {get() {
+    appendToArray("realLength", {get() {
       let l = 0;
       for (let i = 0; i < this.length; i++) {
         if (this.hasOwnProperty(i)) l++;
       }
       return l;
-    }});
+    }})
 
-    Object.defineProperty(p, "first", {get() {
+    appendToArray("first", {get() {
       return this[0];
-    }});
+    }})
 
-    p.clear = function() {
+    appendToArray("clear", function() {
       this.length = 0;
       return this;
-    }
-    p.Clear = function() {
-      return new ArConstr();
-    }
+    })
 
-    p.add = function(...values) {
+    appendToArray("Clear", function() {
+      return new ArConstr();
+    })
+
+    appendToArray("add", function(...values) {
       this.push(...values);
       return this;
-    }
-    p.Add = function(...values) {
-      return new ArConstr().add(...this).add(...values);
-    }
+    })
+    appendToArray("Add", function(...values) {
+      return new ArConstr().add(...this, ...values);
+    })
 
-    p.set = function(a = []) {
+
+    appendToArray("set", function(a = []) {
       if(this === a) return this;
       if(a instanceof Array) return this.clear().add(...a);
       return this.clear().add(a);
-    }
-    p.Set = function(a = []) {
+    })
+
+    appendToArray("Set", function(a = []) {
       return new ArConstr().add(...a);
-    }
+    })
 
-    p.clone = function() {
+    appendToArray("clone", function() {
       return this.Set(this);
-    }
-
-    p.Reverse = function() {
+    })
+    appendToArray("Reverse", function() {
       return this.Set(this).reverse();
-    }
+    })
 
-    p.gather = function(...a) {
+    appendToArray("gather", function(...a) {
       a.ea((e) => {
         if (!this.includes(e)) this.add(e);
       })
       return this;
-    }
+    })
 
-    p.Gather = function(...a) {
+    appendToArray("Gather", function(...a) {
       let t = this.clone();
       a.ea((e) => {
         if (!t.includes(e)) t.add(e);
       })
       return t;
-    }
+    })
 
-    let mark = {};
+    
+
+    let mark = Symbol("Mark");
 
     //Throws InvalidValueException when the given value cannot be found withing this
     // TODO: differentate indexall and indexfirst
-    p.index = function(...values) {
+    appendToArray("index", function(...values) {
       let that = this.Set(this);
       let indexes = new ArConstr();
       values.ea((v) => {
@@ -169,9 +206,10 @@ module.exports = (function() {
         }
       });
       return indexes;
-    }
+    })
+    
     //Throws IndexOutOfBoundsException when given index is out of bounds of this
-    p.removeI = function(...indices) {
+    appendToArray(["removeI", "rmI"], function(...indices) {
       let rollback = this.Set(this);
       try {
         for (let i = 0; i < indices.length; i++) {
@@ -189,28 +227,27 @@ module.exports = (function() {
         throw e;
       }
       return this;
-    }
-    p.rmI = p.removeI;
+    })
+    
     //Throws IndexOutOfBoundsException when given index is out of bounds of this
-    p.RemoveI = function(...indices) {
+    appendToArray(["RemoveI", "RmI"], function(...indices) {
       return this.Set(this).removeI(...indices);
-    }
-    p.RmI = p.RemoveI;
+    })
+
+    
 
     //Throws InvalidValueException when the given value cannot be found withing this
-    p.removeV = function(...values) {
+    appendToArray(["removeV", "rmV"], function(...values) {
       return this.removeI(...this.index(...values));
-    }
-    p.rmV = p.removeV;
+    })
 
     //Throws InvalidValueException when the given value cannot be found withing this
-    p.RemoveV = function(...values) {
+    appendToArray(["RemoveV", "RmV"], function(...values) {
       return this.Set(this).removeV(...values);
-    }
-    p.RmV = p.RemoveV;
+    })
 
     //Throws InvalidValueException when the given param is detected as value but cannot be found withing this
-    p.remove = function(...valueOrIndex) {
+    appendToArray(["remove", "rm"], function(...valueOrIndex) {
       try {
         this.removeI(...valueOrIndex);
       } catch (e) {
@@ -218,57 +255,59 @@ module.exports = (function() {
         else throw e;
       }
       return this;
-    }
-    p.rm = p.remove;
+    })
+
 
     //Throws IndexOutOfBoundsException when given param is detected as index but out of bounds of this
     //Throws InvalidValueException when the given param is detected as value but cannot be found withing this
-    p.Remove = function(...valueOrIndex) {
+    appendToArray(["Remove", "Rm"], function(...valueOrIndex) {
       return this.Set(this).remove(...valueOrIndex);
-    }
-    p.Rm = p.Remove;
+    })
 
-    p.Get = function(...indexes) {
+    appendToArray("Get", function(...indexes) {
       let n = [];
       indexes.flat(Infinity).forEach((i) => {
         n.add(this[i]);
       });
       return n;
-    }
-    p.get = function(...indexes) {
-      return this.set(this.Get(...indexes))
-    }
+    })
 
-    p.dda = function(...values) {
+    appendToArray("get", function(...indexes) {
+      return this.set(this.Get(...indexes))
+    })
+
+    appendToArray("dda", function(...values) {
       return this.reverse().add(...values).reverse();
-    }
-    p.Dda = function(...values) {
+    })
+
+    appendToArray("Dda", function(...values) {
       return this.Reverse().add(...values).reverse();
-    }
+    })
+
 
     //Throws IndexOutOfBoundsException when given index is out of bounds of a
-    p.rem = function(amount) {
+    appendToArray("rem", function(amount) {
       isIndex(amount,this);
       this.length -= amount;
       return this;
-    }
+    })
     //Throws IndexOutOfBoundsException when given index is out of bounds of a
-    p.Rem = function(amount) {
+    appendToArray("Rem", function(amount) {
       return this.Set(this).rem(amount);
-    }
+    })
 
     //Throws IndexOutOfBoundsException when given index is out of bounds of a
-    p.mer = function(amount) {
+    appendToArray("mer", function(amount) {
       return this.reverse().rem(amount).reverse();
-    }
+    })
     //Throws IndexOutOfBoundsException when given index is out of bounds of a
-    p.Mer = function(amount) {
+    appendToArray("Mer", function(amount) {
       return this.Reverse().rem(amount).reverese();
-    }
+    })
 
     //Throws IndexOutOfBoundsException when given index(es) are out of bounds of this
     //Throws InvalidInputException when given parameters are not equal in length
-    p.swapI = function(i1, i2) {
+    appendToArray("swapI", function(i1, i2) {
       i1 = [i1].flat(Infinity);
       i2 = [i2].flat(Infinity);
       if(i1.length === i2.length) {
@@ -286,16 +325,16 @@ module.exports = (function() {
         return this;
       }
       throw new InvalidInputException("Parameter i1 and i2 must ether be two indexes, or two index-Arrays of the same length.");
-    }
+    })
     //Throws IndexOutOfBoundsException when given index(es) are out of bounds of this
     //Throws InvalidInputException when given parameters are not equal in length
-    p.SwapI = function(i1, i2) {
+    appendToArray("SwapI", function(i1, i2) {
       return this.Set(this).swapI(i1, i2);
-    }
+    })
 
     //Throws InvalidValueException when the given value cannot be found withing this
     //Throws InvalidInputException when given parameters are not equal in length
-    p.swapV = function(v1, v2) {
+    appendToArray("swapV", function(v1, v2) {
       v1 = this.Set(v1).flat(2);
       v2 = this.Set(v2).flat(2);
       if (v1.length === v2.length) {
@@ -305,16 +344,16 @@ module.exports = (function() {
         return this;
       }
       throw new InvalidInputException("Parameter v1 and v2 must ether be two values, or two value-Arrays of the same length.");
-    }
+    })
     //Throws InvalidValueException when the given value cannot be found withing this
     //Throws InvalidInputException when given parameters are not equal in length
-    p.SwapV = function(v1, v2) {
+    appendToArray("SwapV", function(v1, v2) {
       return this.Set(this).swapV(v1, v2);
-    }
+    })
 
     //Throws IndexOutOfBoundsException when given param is detected as index but out of bounds of this
     //Throws InvalidValueException when the given param is detected as value but cannot be found withing this
-    p.swap = function(vi1, vi2) {
+    appendToArray("swap", function(vi1, vi2) {
       try {
         this.swapI(vi1, vi2);
       } catch (e) {
@@ -322,43 +361,45 @@ module.exports = (function() {
         else throw e;
       }
       return this;
-    }
+    })
     //Throws IndexOutOfBoundsException when given param is detected as index but out of bounds of this
     //Throws InvalidValueException when the given param is detected as value but cannot be found withing this
-    p.Swap = function(vi1, vi2) {
+    appendToArray("Swap", function(vi1, vi2) {
       return this.Set(this).swap(vi1, vi2)
-    }
+    })
 
-    p.prior = function(i, by = 1) {
+    appendToArray("prior", function(i, by = 1) {
       let r = i - by;
       if (r >= 0) return this[r];
       return this[this.length-(by-i)]
-    }
-    p.next = function(i, by = 1) {
+    })
+
+    appendToArray("next", function(i, by = 1) {
       let r = i + by;
       if (r <= this.length-1) return this[r];
       return this[by-(i-this.length-1)]
-    }
+    })
 
-    p.inject = function(item, index) {
+    appendToArray("inject", function(item, index) {
       this.splice(index, 0, item);
       return this
-    }
+    })
 
-    p.contains = function(...vals) {
+    appendToArray("contains", function(...vals) {
       for (let v of vals) {
         if (!this.includes(v)) return false
       }
       return true
-    }
-    p.excludes = function(...vals) {
+    })
+
+    appendToArray("excludes", function(...vals) {
       for (let v of vals) {
         if (this.includes(v)) return false
       }
       return true
-    }
+    })
 
-    p.closest = p.nearest = function(to /*: number*/) {
+    appendToArray(["closest", "nearest"], function(to /*: number*/) {
       let a = []
       for (let i = 0; i < this.length; i++) {
         a[i] = Math.abs(this[i] - to)
@@ -373,7 +414,7 @@ module.exports = (function() {
         }
       }
       return index
-    }
+    })
 
     return ArConstr
   }
