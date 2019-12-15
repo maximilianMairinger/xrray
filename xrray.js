@@ -118,10 +118,16 @@ module.exports = (function() {
       return this.length === 0;
     }})
 
-    appendToArray("last", {get() {
-      if (this.length === 0) return undefined;
-      return this[this.length-1];
-    }})
+    appendToArray("last", {
+      get() {
+        if (this.length === 0) return undefined;
+        return this[this.length-1];
+      },
+      set(to) {
+        this[this.length === 0 ? 0 : this.length] = to
+      }
+  
+    })
 
     appendToArray("realLength", {get() {
       let l = 0;
@@ -131,9 +137,14 @@ module.exports = (function() {
       return l;
     }})
 
-    appendToArray("first", {get() {
-      return this[0];
-    }})
+    appendToArray("first", {
+      get() {
+        return this[0];
+      },
+      set(to) {
+        this[0] = to;
+      }
+    })
 
     appendToArray("clear", function() {
       this.length = 0;

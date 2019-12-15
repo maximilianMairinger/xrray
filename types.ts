@@ -9,11 +9,11 @@ interface Array<T> {
 	/**
 	 * Last element
 	 */
-	readonly last: T;
+	last: T;
 	/**
 	 * First element
 	 */
-	readonly first: T;
+	first: T;
 	/**
 	 * length without empty slots
 	 */
