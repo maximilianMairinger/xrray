@@ -1,3 +1,8 @@
+// TODO: options to give rm function that return true or false depending on if the element should be removed
+// TODO: remove unsafe option (just remove all elems or indexes that are there) dont throw if invalid
+// TODO: addIfNotAlreadyIncluded: collect()
+
+
 module.exports = (function() {
   'use strict';
   class Exception extends Error {
