@@ -1,16 +1,21 @@
 {
   "name": "xrray",
-  "version": "2.5.3",
+  "version": "4.2.0",
   "description": "Some utility to deal with Arrays",
   "main": "xrray.js",
+  "types": "global.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maximilianMairinger/xrray.git"
+  },
   "keywords": [
     "Array",
     "utility"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zzrv/xrray.git"
-  },
   "author": "Maximilian Mairinger",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maximilianMairinger/xrray/issues"
+  },
+  "homepage": "https://github.com/maximilianMairinger/xrray#readme"
 }

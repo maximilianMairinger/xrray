@@ -1,17 +1,14 @@
 require('./xrray')(Array);
 
-console.log("start");
 
-let a = [];
 
-a[1] = "ewq"
-a[3] = "qwe"
 
-a.ea((e, i) => {
-  return new Promise((res) => {
-    setTimeout(() => {
-      console.log(e, i);
-      res()
-    }, 1000)
-  })
-})
+let a = [5, 3, 123, 3];
+
+for (const k in a) {
+  console.log(k + ": ", a[k]);
+  
+}
+
+console.log(a.add("asd"));
+
