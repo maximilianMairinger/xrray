@@ -3,12 +3,24 @@ require('./xrray')(Array);
 
 
 
-let a = [5, 3, 123, 3];
-
-for (const k in a) {
-  console.log(k + ": ", a[k]);
-  
+let a = {
+  w: "qwe1",
+  q: (a) => a+1,
+  e: "asd"
 }
 
-console.log(a.add("asd"));
+let b = {
+  w: "qwe",
+  q: (a) => a+2,
+  r: "asd"
+}
+
+let e = [a, b]
+
+
+e.inner("q", [2])
+
+console.log(e);
+
+
 

@@ -432,10 +432,18 @@ module.exports = (function() {
       return index
     })
 
-    appendToXrray("inner", function(step) {
-      this.ea((e, i) => {
-        this[i] = e[step]
-      })
+    appendToXrray("inner", function(step, callParams) {
+      if (callParams !== undefined) {
+        this.ea((e, i) => {
+          this[i] = e[step](...callParams)
+        })
+      }
+      else {
+        this.ea((e, i) => {
+          this[i] = e[step]
+        })
+      }
+      
       return this
     })
 
