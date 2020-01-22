@@ -451,6 +451,21 @@ module.exports = (function() {
       return this.Set(this).inner(step, callParams)
     })
 
+    
+    appendToXrray("call", function(...callParams) {
+      if (callParams !== undefined) {
+        this.ea((e, i) => {
+          this[i] = e(...callParams)
+        })
+      }
+      
+      return this
+    })
+
+    appendToXrray("Call", function(...callParams) {
+      return this.Set(this).call(...callParams)
+    })
+
 
 
     return Xrray

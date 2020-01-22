@@ -3,6 +3,7 @@ require('./xrray')(Array);
 
 
 
+
 let a = {
   w: "qwe1",
   q: (a) => a+1,
@@ -15,12 +16,7 @@ let b = {
   r: "asd"
 }
 
-let e = [a, b]
+let e = [a.q, b.q]
 
 
-e.inner("q", [2])
-
-console.log(e);
-
-
-
+console.log(e.call(3))

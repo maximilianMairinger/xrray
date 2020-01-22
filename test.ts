@@ -11,7 +11,7 @@ let b = {
   r: "asd"
 }
 
-let e = [a, b]
+let e = [a.q, b.q]
 
 
-e.inner("q", [2])
+console.log(e.call(2))
