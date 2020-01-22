@@ -447,8 +447,8 @@ module.exports = (function() {
       return this
     })
 
-    appendToXrray("Inner", function(step) {
-      return this.Set(this).inner(step)
+    appendToXrray("Inner", function(step, callParams) {
+      return this.Set(this).inner(step, callParams)
     })
 
 
