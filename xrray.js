@@ -467,6 +467,19 @@ module.exports = (function() {
     })
 
 
+    appendToXrray("replace", function(func) {
+      this.forEach((e, i) => {
+        this[i] = func(e, i)
+      })
+      
+      return this
+    })
+
+    appendToXrray("Replace", function(func) {
+      return this.Set(this).replace(func)
+    })
+
+
 
     return Xrray
   }

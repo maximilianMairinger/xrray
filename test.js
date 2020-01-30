@@ -20,3 +20,10 @@ let e = [a.q, b.q]
 
 
 console.log(e.call(3))
+
+
+let x = [2,3]
+
+x.replace(e => {return {a: e}})
+
+console.log(x)

@@ -260,4 +260,14 @@ interface Array<T> {
 	* Calls all entries
 	*/
 	Call(...callParams: T extends (...args: any) => any ? Parameters<T> : never): T extends (...args: any) => any ? ReturnType<T>[] : never
+
+
+	/*
+	* Replaces every entry with the return value of the iterator
+	*/
+	replace<R>(loop: (e?: T, i?: number) => R, thisArg?: any): R[]
+	/*
+	* Replaces every entry with the return value of the iterator
+	*/
+	Replace<R>(loop: (e?: T, i?: number) => R, thisArg?: any): R[]
 }
