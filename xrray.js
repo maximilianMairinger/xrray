@@ -22,11 +22,6 @@ class InvalidInputException extends Exception {
     super("Given input is invalid.\n" + msg);
   }
 }
-class InvalidConstructorException extends Exception{
-  constructor(msg = "") {
-    super("Given constructor must inherit form Array.\n" + msg);
-  }
-}
 class InvalidValueException extends Exception {
   constructor(value, array) {
     super("Unable to find given value: " + value.constructor.name + " " + JSON.stringify(value) + "; within following array: " + array.toString());
@@ -71,13 +66,11 @@ function appendToPrototypeOf(of) {
 
 
 
-const ar = "xrray";
+const xrraySymbol = Symbol("xrray");
 
 function init(Xrray = Array) {
-  if(!(new Xrray() instanceof Array)) throw new InvalidConstructorException();
-  if (Xrray.xrray === ar) return Xrray;
-
-  Xrray.xrray = ar;
+  if (Xrray[xrraySymbol]) return Xrray;
+  Xrray[xrraySymbol] = true;
 
   const appendToXrray = appendToPrototypeOf(Xrray.prototype)
 
@@ -483,7 +476,6 @@ function init(Xrray = Array) {
 init.Exception = Exception;
 init.IndexOutOfBoundsException = IndexOutOfBoundsException;
 init.InvalidInputException = InvalidInputException;
-init.InvalidConstructorException = InvalidConstructorException;
 init.InvalidValueException = InvalidValueException;
 //init.version = "unknown";
 return init;
