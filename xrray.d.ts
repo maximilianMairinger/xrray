@@ -1,5 +1,4 @@
 type XrrayInit = (Xrray?: typeof Array) => void
-export let XrrayInit
 export default XrrayInit
 
 
