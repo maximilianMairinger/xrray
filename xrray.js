@@ -432,15 +432,51 @@ module.exports = (function() {
       return index
     })
 
-    appendToXrray("inner", function(step) {
-      this.ea((e, i) => {
-        this[i] = e[step]
-      })
+    appendToXrray("inner", function(step, callParams) {
+      if (callParams !== undefined) {
+        this.ea((e, i) => {
+          this[i] = e[step](...callParams)
+        })
+      }
+      else {
+        this.ea((e, i) => {
+          this[i] = e[step]
+        })
+      }
+      
       return this
     })
 
-    appendToXrray("Inner", function(step) {
-      return this.Set(this).inner(step)
+    appendToXrray("Inner", function(step, callParams) {
+      return this.Set(this).inner(step, callParams)
+    })
+
+    
+    appendToXrray("call", function(...callParams) {
+      if (callParams !== undefined) {
+        this.ea((e, i) => {
+          this[i] = e(...callParams)
+        })
+      }
+      
+      return this
+    })
+
+    appendToXrray("Call", function(...callParams) {
+      return this.Set(this).call(...callParams)
+    })
+
+
+    appendToXrray("replace", function(func) {
+      this.forEach((e, i) => {
+        this[i] = func(e, i)
+      })
+      
+      return this
+    })
+
+    appendToXrray("Replace", function(func) {
+      return this.Set(this).replace(func)
     })
 
 

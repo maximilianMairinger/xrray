@@ -1,7 +1,7 @@
 //Copy this to your global.d.ts if you attatch this to Array.
 //When not change Array to the given constrctor (and copy it to the used file)
 
-interface Array<T> extends Xrray.innerExtention<T> {
+interface Array<T> {
 	/**
 	 * True if empty
 	 */
@@ -242,20 +242,32 @@ interface Array<T> extends Xrray.innerExtention<T> {
 	 */
 	nearest: T extends number ? (to: number) => number : typeof undefined
 	
+	/*
+	* Steps into step of all entries
+	*/
+	inner<Key extends keyof T, Val extends T[Key] = T[Key]>(step: Key, callParams?: Val extends (...args: any) => any ? Parameters<Val> : never): Val extends (...args: any) => any ? ReturnType<Val>[] : Val[]
+	/*
+	* Steps into step of all entries
+	*/
+	Inner<Key extends keyof T, Val extends T[Key] = T[Key]>(step: Key, callParams?: Val extends (...args: any) => any ? Parameters<Val> : never): Val extends (...args: any) => any ? ReturnType<Val>[] : Val[]
 
+
+	/*
+	* Calls all entries
+	*/
+	call(...callParams: T extends (...args: any) => any ? Parameters<T> : never): T extends (...args: any) => any ? ReturnType<T>[] : never
+	/*
+	* Calls all entries
+	*/
+	Call(...callParams: T extends (...args: any) => any ? Parameters<T> : never): T extends (...args: any) => any ? ReturnType<T>[] : never
+
+
+	/*
+	* Replaces every entry with the return value of the iterator
+	*/
+	replace<R>(loop: (e?: T, i?: number) => R, thisArg?: any): R[]
+	/*
+	* Replaces every entry with the return value of the iterator
+	*/
+	Replace<R>(loop: (e?: T, i?: number) => R, thisArg?: any): R[]
 }
-
-declare namespace Xrray {
-	export interface innerExtention<T>{
-		/*
-		 * Steps into step of all entries
-		 */
-		inner<Key extends keyof T, Val = T[Key]>(step: Key): Val[]
-		/*
-		 * Steps into step of all entries
-		 */
-		Inner<Key extends keyof T, Val = T[Key]>(step: Key): Val[]
-	}
-}
-
-
