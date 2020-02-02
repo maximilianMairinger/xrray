@@ -3,7 +3,7 @@
   "version": "4.5.0",
   "description": "Some utility to deal with Arrays",
   "main": "xrray.js",
-  "types": "global.d.ts",
+  "types": "xrray.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/maximilianMairinger/xrray.git"
