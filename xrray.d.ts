@@ -1,0 +1,1 @@
+type XrrayInit = (Xrray?: Array) => void
