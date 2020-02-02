@@ -1,5 +1,4 @@
-type XrrayInit = (Xrray?: typeof Array) => void
-export default XrrayInit
+export default function Xrray(Xrray?: typeof Array): void;
 
 
 declare global {
