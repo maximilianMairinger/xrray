@@ -478,7 +478,6 @@ init.IndexOutOfBoundsException = IndexOutOfBoundsException;
 init.InvalidInputException = InvalidInputException;
 init.InvalidValueException = InvalidValueException;
 //init.version = "unknown";
-return init;
 
 
 module.exports = init
