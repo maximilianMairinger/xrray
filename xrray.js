@@ -173,7 +173,7 @@ function init(Xrray = Array) {
     return this.Set(this);
   })
   appendToXrray("Reverse", function() {
-    return this.Set(this).reverse();
+    return this.Set(this.reverse());
   })
 
   appendToXrray("gather", function(...a) {
