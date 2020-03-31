@@ -52,13 +52,13 @@ declare global {
      * awaits any promises
      * when !== undefined gets returned => the the loop stopts and the returned val gets returned
      */
-    ea<R>(loop: (e?: T, i?: number, array?: this) => R, thisArg?: any): R;
+    ea<R>(loop: (e?: T, i?: number, array?: T[]) => R, thisArg?: any): R;
     /**
      * Iterates over all own properties
      * awaits any promises
      * when !== undefined gets returned => the the loop stopts and the returned val gets returned
      */
-    each<R>(loop: (e?: T, i?: number, array?: this) => R, thisArg?: any): R;
+    each<R>(loop: (e?: T, i?: number, array?: T[]) => R, thisArg?: any): R;
     /**
      * Reverts the array
      * The inital array stays unchanged; a new one gets inited;
