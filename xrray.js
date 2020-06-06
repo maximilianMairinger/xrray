@@ -64,12 +64,14 @@ function appendToPrototypeOf(of) {
 }
 
 
-
-
-const xrraySymbol = Symbol("xrray");
+const xrraySymbol = Symbol("xrray")
 
 function init(Xrray = Array) {
-  if (Xrray[xrraySymbol]) return Xrray;
+  if (Xrray[xrraySymbol] !== undefined) return Xrray;
+  if (Xrray.prototype.each !== undefined) {
+    console.warn("You might be using two different versions of xrray. Check all dependencies and their sub dependencies for differences")
+    return Xrray
+  }
   Xrray[xrraySymbol] = true;
 
   const appendToXrray = appendToPrototypeOf(Xrray.prototype)
