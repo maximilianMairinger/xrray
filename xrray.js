@@ -469,6 +469,19 @@ function init(Xrray = Array) {
     return this.Set(this).replace(func)
   })
 
+  appendToXrray("clean", function() {
+    let toBeRm = []
+    for (let i = 0; i < this.length; i++) {
+      if (this[i] === undefined || this[i] === null) toBeRm.add(i)
+    }
+    this.rmI(...toBeRm)
+    return this
+  })
+
+  appendToXrray("Clean", function() {
+    return this.Set(this).clean(func)
+  })
+
 
 
   return Xrray
