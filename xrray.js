@@ -121,7 +121,7 @@ function init(Xrray = Array) {
       return this[this.length-1];
     },
     set(to) {
-      this[this.length === 0 ? 0 : this.length] = to
+      this[this.length === 0 ? 0 : this.length-1] = to
     }
 
   })
