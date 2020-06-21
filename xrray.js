@@ -481,7 +481,7 @@ function init(Xrray = Array) {
   })
 
   appendToXrray("Clean", function() {
-    return this.Set(this).clean(func)
+    return this.Set(this).clean()
   })
 
 
