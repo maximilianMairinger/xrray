@@ -1,4 +1,4 @@
-export default function Xrray(Xrray?: typeof Array): void;
+export default function Xrray(Xrray?: { new(...a: any): Array<any> }): void;
 
 
 declare global {
