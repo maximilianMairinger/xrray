@@ -1,6 +1,6 @@
 {
   "name": "xrray",
-  "version": "4.6.8",
+  "version": "4.7.0",
   "description": "Some utility to deal with Arrays",
   "main": "xrray.js",
   "types": "xrray.d.ts",
