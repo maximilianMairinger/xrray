@@ -272,6 +272,15 @@ declare global {
     * Replaces every entry with the return value of the iterator
     */
     Replace<R>(loop: (e?: T, i?: number) => R, thisArg?: any): R[]
+
+
+    distinct(dontDistinctOnlySequentialPairs: boolean, from: "start" | "end"): this
+    distinct(dontDistinctOnlySequentialPairs: boolean, from?: "start"): this
+    distinct(dontDistinctOnlySequentialPairs?: true): this
+
+    Distinct(dontDistinctOnlySequentialPairs: boolean, from: "start" | "end"): this
+    Distinct(dontDistinctOnlySequentialPairs: boolean, from?: "start"): this
+    Distinct(dontDistinctOnlySequentialPairs?: true): this
   }
   
 }

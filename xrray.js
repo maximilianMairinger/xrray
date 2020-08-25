@@ -485,6 +485,34 @@ function init(Xrray = Array) {
   })
 
 
+  appendToXrray("distinct", function(dontDistinctOnlySequentialPairs = false, from = "start") {
+    if (dontDistinctOnlySequentialPairs) {
+      let isEnd = from === "end"
+      let distinct = []
+      let ar = isEnd ? this.reverse() : this
+      ar.ea((q) => {
+        if (!distinct.includes(q)) distinct.add(q)
+      })
+
+      this.set(isEnd ? distinct.reverse() : distinct)
+    }
+    else {
+      let last = Symbol()
+      let dis = []
+      this.ea((q, i) => {
+        if (q !== last) dis.add(q)
+        last = q
+      })
+      this.set(dis)
+    }
+    return this
+  })
+
+  appendToXrray("Distinct", function() {
+    return this.distinct(this).clean()
+  })
+
+
 
   return Xrray
 }
