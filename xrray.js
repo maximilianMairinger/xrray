@@ -179,10 +179,14 @@ function init(Xrray = Array) {
   })
 
   appendToXrray("gather", function(...a) {
+    let anyNew = false
     a.ea((e) => {
-      if (!this.includes(e)) this.add(e);
+      if (!this.includes(e)) {
+        this.add(e)
+        anyNew = true
+      }
     })
-    return this;
+    return anyNew
   })
 
   appendToXrray("Gather", function(...a) {

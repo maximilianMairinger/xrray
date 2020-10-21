@@ -205,8 +205,9 @@ declare global {
     Flat(ammount?: number): this
      /**
       * Add elements a to array but only if they are not already present
+      * @returns true if any elements of a are added
       */
-     gather(...a: T[]): this;
+     gather(...a: T[]): boolean;
      /**
       * Add elements a to array but only if they are not already present
       * The inital array stays unchanged; a new one gets inited;
