@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/maximilianMairinger/xrray/issues"
   },
-  "homepage": "https://github.com/maximilianMairinger/xrray#readme"
+  "homepage": "https://github.com/maximilianMairinger/xrray#readme",
+  "dependencies": {
+    "attatch-to-prototype": "^1.3.7"
+  }
 }

@@ -2,6 +2,7 @@
 // TODO: remove unsafe option (just remove all elems or indexes that are there) dont throw if invalid
 // TODO: addIfNotAlreadyIncluded: collect()
 
+import constructAttachToProto from "attatch-to-prototype"
 
 class Exception extends Error {
   constructor(msg) {
@@ -35,34 +36,6 @@ function isIndex(i, a) {
   if(!a.hasOwnProperty(i)) throw new IndexOutOfBoundsException(i,a);
 }
 
-function appendToPrototypeOf(of) {
-  return function(name, func) {
-    const isFunc = typeof func === "function"
-    if (name instanceof Array) {
-      for (let i = 0; i < name.length; i++) {
-        appendToPrototype(name[i], func, isFunc)
-      }
-    }
-    else appendToPrototype(name, func, isFunc)
-  }
-
-  function appendToPrototype(name, func, isFunc) {
-    let ob
-    if (isFunc) {
-      ob = {
-        value: func,
-        enumerable: false
-      }
-    }
-    else {
-      ob = func
-      ob.enumerable = false
-    }
-
-    Object.defineProperty(of, name, ob)
-  }
-}
-
 
 const xrraySymbol = Symbol("xrray")
 
@@ -74,7 +47,7 @@ function init(Xrray = Array) {
   }
   Xrray[xrraySymbol] = true;
 
-  const appendToXrray = appendToPrototypeOf(Xrray.prototype)
+  const appendToXrray = constructAttachToProto(Xrray.prototype)
 
 
   appendToXrray(["each", "ea"], function(f, t = this) {
