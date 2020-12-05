@@ -39,7 +39,7 @@ function isIndex(i, a) {
 
 const xrraySymbol = Symbol("xrray")
 
-function init(Xrray = Array) {
+export function init(Xrray = Array) {
   if (Xrray[xrraySymbol] !== undefined) return Xrray;
   if (Xrray.prototype.each !== undefined) {
     console.warn("You might be using two different versions of xrray. Check all dependencies and their sub dependencies for differences")
@@ -500,6 +500,5 @@ init.InvalidValueException = InvalidValueException;
 //init.version = "unknown";
 
 
-module.exports = init
-module.exports.default = init
+export default init
 
