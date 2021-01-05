@@ -1,0 +1,5 @@
+test.js
+test.ts
+tsconfig.prod.cjs.json
+tsconfig.prod.esm.json
+src
