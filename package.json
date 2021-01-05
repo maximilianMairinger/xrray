@@ -1,6 +1,6 @@
 {
   "name": "xrray",
-  "version": "4.7.4",
+  "version": "4.7.5",
   "description": "Some utility to deal with Arrays",
   "main": "./dist/esm/xrray.js",
   "types": "xrray.d.ts",
