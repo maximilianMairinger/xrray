@@ -2,11 +2,23 @@
   "name": "xrray",
   "version": "4.7.3",
   "description": "Some utility to deal with Arrays",
-  "main": "xrray.js",
+  "main": "./dist/esm/xrray.js",
   "types": "xrray.d.ts",
+  "exports": {
+    "node": {
+      "import": "./dist/esm/xrray.js",
+      "require": "./dist/cjs/xrray.js"
+    },
+    "default": "./dist/esm/xrray.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/maximilianMairinger/xrray.git"
+  },
+  "scripts": {
+    "build": "npm run buildCJS && npm run buildESM",
+    "buildCJS": "tsc -p ./tsconfig.prod.cjs.json",
+    "buildESM": "tsc -p ./tsconfig.prod.esm.json"
   },
   "keywords": [
     "Array",
