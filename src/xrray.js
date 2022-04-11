@@ -47,7 +47,7 @@ export function init(Xrray = Array) {
   }
   Xrray[xrraySymbol] = true;
 
-  const appendToXrray = constructAttachToProto(Xrray.prototype)
+  const appendToXrray = constructAttachToProto(Xrray.prototype, {enumerable: false})
 
 
   appendToXrray(["each", "ea"], function(f, t = this) {
