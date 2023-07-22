@@ -16,7 +16,7 @@
     "url": "https://github.com/maximilianMairinger/xrray.git"
   },
   "scripts": {
-    "build": "npm run buildCJS && npm run buildESM && renamer --find /\\.js$/i --replace .mjs dist/esm/**",
+    "build": "del-cli dist && npm run buildCJS && npm run buildESM && renamer --find /\\.js$/i --replace .mjs dist/esm/**",
     "buildCJS": "tsc -p ./tsconfig.prod.cjs.json",
     "buildESM": "tsc -p ./tsconfig.prod.esm.json"
   },
@@ -34,6 +34,7 @@
     "attatch-to-prototype": "^1.3.7"
   },
   "devDependencies": {
+    "del-cli": "^5.0.0",
     "renamer": "^4.0.0",
     "typescript": "^4.6.3"
   }
