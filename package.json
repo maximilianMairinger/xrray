@@ -2,21 +2,21 @@
   "name": "xrray",
   "version": "4.7.8",
   "description": "Some utility to deal with Arrays",
-  "main": "./dist/esm/xrray.js",
+  "main": "./dist/esm/xrray.mjs",
   "types": "xrray.d.ts",
   "exports": {
     "node": {
-      "import": "./dist/esm/xrray.js",
+      "import": "./dist/esm/xrray.mjs",
       "require": "./dist/cjs/xrray.js"
     },
-    "default": "./dist/esm/xrray.js"
+    "default": "./dist/esm/xrray.mjs"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/maximilianMairinger/xrray.git"
   },
   "scripts": {
-    "build": "npm run buildCJS && npm run buildESM",
+    "build": "npm run buildCJS && npm run buildESM && renamer --find /\\.js$/i --replace .mjs dist/esm/**",
     "buildCJS": "tsc -p ./tsconfig.prod.cjs.json",
     "buildESM": "tsc -p ./tsconfig.prod.esm.json"
   },
@@ -34,6 +34,7 @@
     "attatch-to-prototype": "^1.3.7"
   },
   "devDependencies": {
+    "renamer": "^4.0.0",
     "typescript": "^4.6.3"
   }
 }
